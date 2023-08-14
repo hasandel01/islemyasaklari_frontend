@@ -1,7 +1,7 @@
 
 function MainPage() {
     return <h1 className={"main-page"}>
-        ANA SAYFA
+        MAIN PAGE
         </h1>
 }
 export default MainPage

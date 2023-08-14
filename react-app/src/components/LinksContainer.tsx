@@ -28,21 +28,21 @@ function LinksContainer() {
                         to={"/registration"}
                         onClick={handleLinkClick}
                     >
-                        KAYIT OL
+                        SIGN UP
                     </Link>
                     <Link
                         className={"link-property"}
                         to={"/log-in"}
                         onClick={handleLinkClick}
                     >
-                        GİRİŞ YAP
+                        SIGN IN
                     </Link>
                     <Link
                         className={"link-property"}
                         to={"/query"}
                         onClick={handleLinkClick}
                     >
-                        SORGULA
+                        QUERY
                     </Link>
                 </>
             )}

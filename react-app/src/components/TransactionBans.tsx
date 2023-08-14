@@ -1,5 +1,6 @@
 import {useEffect} from "react";
 import axios from "../api/Axios.tsx";
+import useTokenStore from "./UseTokenStore.tsx";
 
 interface Props {
     onTransactionBansDataFetched : (data: any) => void;
@@ -9,6 +10,9 @@ interface Props {
 
 
 function TransactionBans({onTransactionBansDataFetched,handleButtonClicked} : Props) {
+
+    const token = useTokenStore(state => state.getToken);
+
 
     useEffect(() => {
         if(handleButtonClicked)
@@ -23,7 +27,13 @@ function TransactionBans({onTransactionBansDataFetched,handleButtonClicked} : Pr
 
 
     const fetchDataToDatabase = () => {
-        axios.get("/api/registry/save-to-database")
+        axios.get("/api/registry/save-to-database", {
+            headers : { 'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        withCredentials: false
+            }
+        }
+        )
             .then( (response) => {
                 return response.statusText;
             })
@@ -40,7 +50,13 @@ function TransactionBans({onTransactionBansDataFetched,handleButtonClicked} : Pr
 
 
     const fetchDataFromDatabase = () => {
-        axios.get("/api/registry/all-bans-dto")
+        console.log(token)
+        axios.get("/api/registry/all-bans-dto", {
+            headers : { 'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        withCredentials: false
+            }
+        })
             .then( (response) => {
                 if(response.status === 200) {
                     onTransactionBansDataFetched(response.data)

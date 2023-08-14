@@ -38,7 +38,7 @@
 }
 
 .read-the-docs {
-  color: #888;
+  color: #9f9fa0;
 }
 
 .button-new {
@@ -86,81 +86,33 @@
   background-color: grey;
 }
 
-.first-name-input {
-  border: none;
-  border-radius: 4px;
+.input {
+  border: 1px solid lightslategrey;
+  border-radius: 8px;
   width: 200px;
-  margin-bottom: 10px; /* Increase the margin at the bottom of the inputs */
-
-}
-.last-name-input {
-  border: none;
-  border-radius: 4px;
-  width: 200px;
-  margin-bottom: 10px; /* Increase the margin at the bottom of the inputs */
+  height: 30px;
+  margin: 20px;
 }
 
-.email-input {
-  border: none;
-  border-radius: 4px;
-  width: 200px;
-  margin-bottom: 10px; /* Increase the margin at the bottom of the inputs */
-}
-
-.password-input {
-  border: none;
-  border-radius: 4px;
-  width: 200px;
-  margin-bottom: 10px; /* Increase the margin at the bottom of the inputs */
-}
-
-.log-in-property {
+.form-property {
   display: flex;
   flex-direction: column;
   align-content: center;
   align-items: center;
-  border : 1px solid whitesmoke;
+  border : 2px solid whitesmoke;
   border-radius: 10px;
   margin-top: 200px;
-}
-
-.par {
-  color: white;
-}
-/* Styles for the <a> element inside the <span> */
-.line a {
-  color: white; /* Change the color to your desired color */
-}
-
-.registration-property {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  align-items: center;
-  border : 1px solid whitesmoke;
-  border-radius: 10px;
-  margin-top: 200px;
-}
-
-.log-in-username {
-  border: none;
-  border-radius: 4px;
-  width: 200px;
-  margin-bottom: 10px; /* Increase the margin at the bottom of the inputs */
-}
-
-.log-in-password {
-  border: none;
-  border-radius: 4px;
-  width: 200px;
-  margin-bottom: 10px; /* Increase the margin at the bottom of the inputs */
+  margin-right: auto;
+  margin-left: auto;
+  width: 300px;
+  background-color: white;
 }
 
 .link-property {
   border: none;
   color: white;
   border-radius: 20px;
-  background-color: coral;
+  background-color: royalblue;
   font-size: 20px;
   margin-right: 20px;
   margin-bottom: 200px;
@@ -168,11 +120,25 @@
   padding: 30px;
 }
 
-.main-page {
-  color: white;
-  margin-top: 50px;
-}
-
 .ban-item {
   margin-top: 40px;
+}
+
+.form-button {
+  background-color: royalblue;
+  color: white;
+  border-radius: 20px;
+  width: 200px;
+  height: 50px;
+  transition: background-color 1s;
+  border: none;
+}
+
+.form-button:hover {
+  background-color: dodgerblue;
+}
+
+.error-label {
+  color: red;
+  margin-bottom: 10px;
 }

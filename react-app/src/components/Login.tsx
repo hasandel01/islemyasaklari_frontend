@@ -1,97 +1,91 @@
-import {useRef, useEffect, useState, useContext} from "react";
+import {Form, Formik, Field} from "formik";
 import axios from "../api/Axios.tsx";
-import AuthContext from "../context/AuthProvider.tsx";
+import {useContext} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
+import AuthContext from "../context/AuthProvider.tsx";
+import useTokenStore from "./UseTokenStore.tsx";
+import Swal from "sweetalert2";
 
-const LOGIN_URL = "api/v1/auth/authenticate"
+const LOG_IN_URL = "/api/v1/auth/authenticate"
 
-function Login() {
+const Login = () => {
 
-    const { setAuth } = useContext(AuthContext)
+    const {setAuth} = useContext(AuthContext)
+    const setToken = useTokenStore(state => state.setToken);
 
     const navigate = useNavigate()
     const location = useLocation()
     const from = location.state?.from?.pathname || "/"
 
-    const userRef = useRef();
-    const errRef = useRef();
+    const showSuccessfulLogIn = () => {
+        Swal.fire( {
+            icon: "success",
+            title: "SUCCESSFULLY LOGGED IN!"
+        })
 
-    const[email, setEmail] = useState('')
-    const[password, setPassword] = useState('')
-    const[errMsg, setErrMsg] = useState('')
-
-
-    useEffect(() => {
-        userRef.current
-    }, []);
-
-
-    useEffect(() => {
-        setErrMsg(' ')
-    }, [email,password]);
-
-    const handleSubmit  = async (e) => {
-        e.preventDefault()
-        console.log(email,password)
-
-            try {
-                const response = await axios.post(LOGIN_URL,
-                    JSON.stringify({ email ,password}),
-                    {
-                        headers: { 'Content-Type': 'application/json' },
-                        withCredentials: false
-                    }
-                );
-                console.log(response.data)
-                console.log(JSON.stringify(response))
-
-                const accessToken = response?.data?.token;
-                console.log(accessToken)
-                setAuth({email, password, accessToken})
-                navigate(from, { replace: true})
-            }catch (err) {
-
-                if(!err?.response) {
-                    console.log('No server response')
-                }
-                else if ( err.response?.status == 409) {
-                    console.log('UserName taken')
-                }
-            }
     }
 
-    return (
-        <div className={"log-in-property"}>
-            {/* A paragraph element with a class name "errMsg" if errMsg is truthy, otherwise "offscreen". */}
-            <p className={errMsg ? "errMsg" : "offscreen"} aria-live={"assertive"}>
-                {errMsg}
-            </p>
+    const showLogInFailed = () => {
+        Swal.fire( {
+            icon: "error",
+            title: "Log in failed, check your credentials again."
+        })
+    }
 
-            {/* Two input elements, one for the username with the id "my-input" and a placeholder "username". */}
-            <input className={"log-in-username"}
-                   id={"my-input"}
-                   placeholder={"E-MAIL"}
-                   onChange={(e) => setEmail(e.target.value)}
-                   value={email}
-            />
-            <input className={"log-in-password"}
-                   type={"password"}
-                   id={"my-input"}
-                   placeholder={"PASSWORD"}
-                   onChange={ (e) => setPassword(e.target.value)}
-                   value={password}
-            />
-            <button onClick={handleSubmit}>  LOG IN</button>
-            <p className={"par"}>
-                Don't have account?
-                <span className={"line"}>
-                    {/* ROUTER LINK */}
-                    <a  href={"/registration"} className={"sign-up"}> Sign UP! </a>
-                </span>
-            </p>
-        </div>
+
+    return (
+        <Formik initialValues={{email : '', password : ''}} onSubmit={async values => {
+                try {
+                    const response = await axios.post(LOG_IN_URL,
+                        JSON.stringify({email: values.email,password: values.password}),
+                        {
+                            headers : { 'Content-Type': 'application/json'},
+                            withCredentials : false
+                            }
+                        );
+
+                    const accessToken = response?.data?.token
+
+                    if(accessToken != null)
+                        showSuccessfulLogIn()
+
+                    setToken(accessToken)
+                    setAuth(values.email,values.password,accessToken)
+                    navigate(from, { replace: true });
+                }catch(error) {
+                    showLogInFailed()
+                }
+            }
+        }
+        >
+                <Form className={"form-property"}>
+                    <Field
+                        className={"input"}
+                        type={"email"}
+                        name={"email"}
+                        placeholder={"E-MAIL"}
+                    />
+                    <Field
+                        className={"input"}
+                        type={"password"}
+                        name={"password"}
+                        placeholder={"PASSWORD"}
+                    />
+                    <button className={"form-button"} type={"submit"}> LOG IN</button>
+                    <p className={"info"}>
+                        Don't have any account?
+                        <span className={"line"}>
+                            {/* ROUTER LINK */}
+                            <a href={"/registration"} className={"sign-up"}>
+                                {" "}
+                                Sign UP!{" "}
+                            </a>
+                        </span>
+                    </p>
+                </Form>
+        </Formik>
     )
 }
 
 
-export default Login;
+export default Login

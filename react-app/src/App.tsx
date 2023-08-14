@@ -29,7 +29,7 @@ function App() {
                    <Route path={"/log-in"} element={<Login/>} />
 
                    {/*PRIVATE ROUTES*/}
-                   <Route element={<RequireAuth/>} >
+                   <Route element={<RequireAuth />} >
                         <Route path={"/query"} element={<DataHandler/>} />
                    </Route>
                </Routes>

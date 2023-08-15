@@ -1,21 +1,17 @@
 import {Form, Formik, Field} from "formik";
 import axios from "../api/Axios.tsx";
-import {useContext} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
-import AuthContext from "../context/AuthProvider.tsx";
-import useTokenStore from "./UseTokenStore.tsx";
+import {useNavigate} from "react-router-dom";
 import Swal from "sweetalert2";
+import useAuth from "../hooks/useAuth.tsx";
+import useAuthStore from "../hooks/useAuthStore.tsx";
 
 const LOG_IN_URL = "/api/v1/auth/authenticate"
 
 const Login = () => {
 
-    const {setAuth} = useContext(AuthContext)
-    const setToken = useTokenStore(state => state.setToken);
+    const { setAuth } = useAuth();
 
-    const navigate = useNavigate()
-    const location = useLocation()
-    const from = location.state?.from?.pathname || "/"
+    const navigate = useNavigate();
 
     const showSuccessfulLogIn = () => {
         Swal.fire( {
@@ -35,6 +31,7 @@ const Login = () => {
 
     return (
         <Formik initialValues={{email : '', password : ''}} onSubmit={async values => {
+
                 try {
                     const response = await axios.post(LOG_IN_URL,
                         JSON.stringify({email: values.email,password: values.password}),
@@ -44,14 +41,13 @@ const Login = () => {
                             }
                         );
 
-                    const accessToken = response?.data?.token
-
+                    const email = values.email
+                    const password = values.password
+                    const accessToken = response?.data?.accessToken
+                    setAuth({email, password, accessToken})
                     if(accessToken != null)
                         showSuccessfulLogIn()
-
-                    setToken(accessToken)
-                    setAuth(values.email,values.password,accessToken)
-                    navigate(from, { replace: true });
+                    navigate("/", { replace: true });
                 }catch(error) {
                     showLogInFailed()
                 }

@@ -1,6 +1,6 @@
 import TransactionBans from "./TransactionBans.tsx";
 import {useState} from "react";
-import useTokenStore from "./UseTokenStore.tsx";
+import useRefreshToken from "../hooks/useRefreshToken.tsx";
 
 // Define the type for 'data'
 type BanData = {
@@ -21,11 +21,6 @@ function DataHandler() {
     const [buttonClicked, setButtonClicked] = useState(false);
     const [showData, setShowData] = useState(false);
     const [details, setDetails] = useState<boolean[]>([]);
-
-
-/*
-    setDetails(new Array(.length).fill(false));
-*/
 
     const handleTransactionBans = (data: BanData[]) => {
         setTransactionBans(data);
@@ -73,7 +68,7 @@ function DataHandler() {
                         </div>
                     </div>
                 ))}
-            <button className={"button-new"} onClick={handleOnClick}>
+            <button className={"query-button"} onClick={handleOnClick}>
                 SORGULA
             </button>
         </div>

@@ -1,5 +1,5 @@
 import "./App.css";
-import {BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation, BrowserRouter} from "react-router-dom";
 import Login from "./components/Login.tsx";
 import Registration from "./components/Registration.tsx";
 import MainPage from "./components/MainPage.tsx";
@@ -19,22 +19,19 @@ function App() {
 
     return (
         <>
-       <Router>
-            <LinksContainer/>
+       <BrowserRouter>
            <div>
                <Routes>
                    {/*PUBLIC ROUTES*/}
-                   <Route path={"/"} element={<MainPage/>} />
                    <Route path={"/registration"} element={<Registration/>} />
                    <Route path={"/log-in"} element={<Login/>} />
-
                    {/*PRIVATE ROUTES*/}
                    <Route element={<RequireAuth />} >
-                        <Route path={"/query"} element={<DataHandler/>} />
+                        <Route path={"/"} element={<DataHandler/>} />
                    </Route>
                </Routes>
            </div>
-       </Router>
+       </BrowserRouter>
         </>
     );
 }

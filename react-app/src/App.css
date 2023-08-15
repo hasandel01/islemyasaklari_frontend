@@ -41,18 +41,19 @@
   color: #9f9fa0;
 }
 
-.button-new {
-  background-color: steelblue;
+.query-button {
+  background-color: royalblue;
   transition: opacity 1s;
   border: none;
   color: whitesmoke;
   font-size: 16px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-style: italic;
-  font-family: Arial;
   padding: 10px;
-  margin-top: 200px;
-
+  margin-top: 300px;
+  width: 200px;
+  height: 100px;
+  font-size: 24px;
 }
 
 .button-new:hover {

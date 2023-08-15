@@ -1,8 +1,9 @@
 import axios from "../api/Axios.tsx";
-import {ErrorMessage, Field, Form, Formik, useFormik, useFormikContext} from "formik";
+import {ErrorMessage, Field, Form, Formik, replace, useFormik, useFormikContext} from "formik";
 import * as Yup from 'yup';
 import * as sweetalert2 from "sweetalert2";
-import Swal from "sweetalert2"; sweetalert2
+import Swal from "sweetalert2";
+import {useNavigate} from "react-router-dom"; sweetalert2
 
 const USER_REGEX = /^[\p{L}\p{N}]{3,31}$/u;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,24}$/;
@@ -10,6 +11,9 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,24}$/;
 const REGISTER_URL = "/api/v1/auth/register"
 
 function Registration() {
+
+    const navigate = useNavigate()
+
 
     const registrationSchema = Yup.object().shape( {
         firstName: Yup.string()
@@ -78,6 +82,8 @@ function Registration() {
                             showRegistrationValidation();
                             console.log(response?.data?.token);
                         }
+
+                            navigate("/log-in", { replace: true })
 
                     }
                     catch (err) {

@@ -1,6 +1,6 @@
 import {useEffect} from "react";
-import axios from "../api/Axios.tsx";
-import useTokenStore from "./UseTokenStore.tsx";
+import axios, {axiosPrivate} from "../api/Axios.tsx";
+import useAxiosPrivate from "../hooks/useAxiosPrivate.tsx";
 
 interface Props {
     onTransactionBansDataFetched : (data: any) => void;
@@ -11,7 +11,7 @@ interface Props {
 
 function TransactionBans({onTransactionBansDataFetched,handleButtonClicked} : Props) {
 
-    const token = useTokenStore(state => state.getToken);
+    const axiosPrivate = useAxiosPrivate()
 
 
     useEffect(() => {
@@ -27,21 +27,17 @@ function TransactionBans({onTransactionBansDataFetched,handleButtonClicked} : Pr
 
 
     const fetchDataToDatabase = () => {
-        axios.get("/api/registry/save-to-database", {
-            headers : { 'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                        withCredentials: false
-            }
+        axiosPrivate.get("/api/registry/save-to-database", {
+
         }
         )
             .then( (response) => {
-                return response.statusText;
-            })
-            .then( (data) => {
-                if(data === "SUCCESS")
+                if(response.status === 201) {
                     console.log("DATA SAVED")
-                else
-                    console.log("FAILED")
+                }
+                else {
+                    console.error("FAILED")
+                }
             })
             .catch((error) => {
                 console.error("Error fetching data: ", error)
@@ -50,12 +46,8 @@ function TransactionBans({onTransactionBansDataFetched,handleButtonClicked} : Pr
 
 
     const fetchDataFromDatabase = () => {
-        console.log(token)
-        axios.get("/api/registry/all-bans-dto", {
-            headers : { 'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                        withCredentials: false
-            }
+        axiosPrivate.get("/api/registry/all-bans-dto", {
+
         })
             .then( (response) => {
                 if(response.status === 200) {

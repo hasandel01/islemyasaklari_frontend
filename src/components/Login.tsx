@@ -8,6 +8,7 @@ const LOG_IN_URL = "/api/v1/auth/authenticate"
 
 const Login = () => {
 
+    // @ts-ignore
     const { setAuth } = useAuth();
 
     const navigate = useNavigate();

@@ -3,7 +3,8 @@ import useAuth from "../hooks/useAuth.tsx";
 
 const RequireAuth = () => {
 
-    const {auth} = useAuth()
+    // @ts-ignore
+    const { auth } = useAuth()
     const location = useLocation()
 
         return (

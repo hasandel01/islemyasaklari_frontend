@@ -65,6 +65,10 @@ function TransactionBans({onTransactionBansDataFetched,handleButtonClicked} : Pr
             })
     }
 
+
+    // No JSX returned here, just side effects
+    return null;
+
 }
 
 

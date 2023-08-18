@@ -6,7 +6,8 @@ import useAuth from "./useAuth.tsx";
 const useAxiosPrivate = () => {
 
         const refresh = useRefreshToken()
-        const { auth } = useAuth()
+    // @ts-ignore
+    const { auth } = useAuth()
 
 
     useEffect(() => {
@@ -14,9 +15,12 @@ const useAxiosPrivate = () => {
             const requestIntercept = axiosPrivate.interceptors.request.use(
 
                 config => {
-                        if(!config.headers['Authorization']) {
+                    if (!(config.headers) || config.headers['Authorization']) {
+                    } else {
+                        if (config.headers) {
                             config.headers['Authorization'] = `Bearer ${auth?.accessToken}`
                         }
+                    }
                     return config
                 },
                 error => Promise.reject(error)

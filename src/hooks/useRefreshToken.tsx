@@ -4,6 +4,7 @@ import axios from "../api/Axios.tsx";
 
 const useRefreshToken = () => {
 
+    // @ts-ignore
     const { setAuth } = useAuth();
 
             const refresh = async () => {
@@ -15,6 +16,7 @@ const useRefreshToken = () => {
                             withCredentials: false
                         }
                     })
+                // @ts-ignore
                 setAuth(prev => {
                     console.log(JSON.stringify(prev))
                     console.log(response.data.accessToken)
